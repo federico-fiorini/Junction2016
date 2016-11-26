@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/teodorpatras/Junction2016#readme",
   "dependencies": {
-    "express": "4.14.0"
+    "async": "2.1.4",
+    "body-parser": "1.15.2",
+    "express": "4.14.0",
+    "raw-body": "2.1.7",
+    "request": "2.79.0"
   }
 }

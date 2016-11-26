@@ -68,9 +68,13 @@ function applyEmojis(status) {
     for (i = 0; i < status.length; i++) {
         var img = document.createElement('img')
         var dict = status[i]
+<<<<<<< HEAD
         img.src = `/public/img/${dict.gender}_${dict.emotion}.png`
         img.className = `emojy-img`
         console.log(img.url)
+=======
+        img.url = `/public/img/${dict.gender}_${dict.emotion}.png`
+>>>>>>> 9552ac8956284b9ee5b61652f8c6fe83a5282666
         var textDiv = document.createElement('div')
         textDiv.innerHTML = `${dict.age}`
         var statusDiv = document.createElement('div')
@@ -84,6 +88,9 @@ function applyEmojis(status) {
 function computeStatus() {
     var status = []
     for (var i = 0; i < people.faces.length; i++) {
+        
+        console.log(people.faces[i])
+
         let attr = people.faces[i].faceAttributes
         var emotion = ''
         if (people.emotions.length > i) {
@@ -114,20 +121,26 @@ function take_snapshot() {
         const base64 = data_uri.substring(data_uri.indexOf(token) + token.length)
         const blob = b64toBlob(base64, 'image/jpeg')
 
-        analyzeFace(blob, face => {
-            console.log('Face: ', face)
-            people.faces = face
-            computeStatus()
-        })
-
-        analyzeEmotion(blob, emotion => {
-            console.log('Emotion: ', emotion)
-            people.emotions = emotion
+        post(blob, res => {
+            people['faces'] = JSON.parse(res[0])
+            people['emotions'] = JSON.parse(res[1])
             computeStatus()
         })
     });
 }
 
+function post(data, completion) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://futurebusstation/file/')
+    xhr.setRequestHeader('Content-Type', 'application/octet-stream')
+
+    xhr.onload = function() {
+        completion(JSON.parse(this.response))
+    }
+    xhr.send(data)
+}
+
+/*
 function analyzeEmotion(data, completion) {
     const key = '63609cc73858437f9cadcd3e503c25b9'
     const url = 'https://api.projectoxford.ai/emotion/v1.0/recognize'
@@ -152,6 +165,10 @@ function post(url, data, key, completion) {
 
     xhr.send(data)
 }
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> 9552ac8956284b9ee5b61652f8c6fe83a5282666
 
 function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
@@ -175,4 +192,8 @@ function b64toBlob(b64Data, contentType, sliceSize) {
 
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9552ac8956284b9ee5b61652f8c6fe83a5282666
