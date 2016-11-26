@@ -28,6 +28,7 @@ function getLastPerson() {
 }
 
 function computeImageSet(person) {
+	console.log(person)
 	if (!person) {
 		return shuffle(ads);
 	}
