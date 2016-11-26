@@ -3,9 +3,9 @@ var timerRunning = false;
 
 $(function() {
 
-	$( "#full-div" ).click(function(event) {
-		restartTimer();
-	});
+	$(window).click(function() {
+      restartTimer();
+  });
 
 	var timer = new Timer(1000, function(self, seconds) {
 		if (seconds == TIME) {
@@ -29,18 +29,18 @@ $(function() {
 			    opacity: 1,
 			    width: "100px",
 			    height: "100px",
-			    'z-index': "100"
-			}, 2000, function() {}
+					top: "-=20%",
+					right: "-=15%"
+			}, 1000, function() {}
 		);
 
-	  	$( "#ads" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100%",
-			    height: "100%",
-			    'z-index': "0"
-			}, 2000, function() {}
-		);
+	  // 	$( "#ads" )
+	  // 		.animate({
+		// 	    opacity: 1,
+		// 	    width: "100%",
+		// 	    height: "100%"
+		// 	}, 1000, function() {}
+		// );
 	}
 
 	$( "#click-div" ).click(function(event) {
@@ -51,23 +51,25 @@ $(function() {
 			console.log("started timer");
 		}
 
-	  	$( "#ads" )
+	  $( "#interactive" )
 	  		.animate({
 			    opacity: 1,
-			    width: "100px",
-			    height: "100px",
-			    'z-index': "100"
-			}, 2000, function() {}
+			    width: "70%",
+			    height: "60%",
+					top: "+=20%",
+					right: "+=15%"
+			}, 1000, function() {}
 		);
 
-	  	$( "#interactive" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100%",
-			    height: "100%",
-			    'z-index': "0"
-			}, 2000, function() {}
-		);
+		// $( "#ads" )
+	  // 		.animate({
+		// 	    opacity: 1,
+		// 	    width: "100%",
+		// 	    height: "30%"
+		// 	}, 1000, function() {
+		// 		$( "#ads-page" ).css("background", "green");
+		// 	}
+		// );
 
 	});
 });
