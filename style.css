@@ -6,28 +6,32 @@ iframe {
  	border:0 none;
 }
 
-#top-left {
+.top-right {
 	position: absolute;
 	top: 0;
 	right: 0;
+	
+}
+
+#click-div {
 	height: 100px;
 	width: 100px;
 	z-index: 1000;
 }
 
+#full-div {
+	height: 100%;
+	width: 100%;
+	z-index: 500;
+}
+
 #ads {
-	position: absolute;
-	top: 0;
-	right: 0;
 	height: 100px;
 	width: 100px;
 	z-index: 100;
 }
 
 #interactive {
-	position: absolute;
-	top: 0;
-	right: 0; 
 	height: 100%;
 	width: 100%;
 	z-index: 0;
