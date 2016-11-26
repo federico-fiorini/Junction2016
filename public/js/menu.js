@@ -34,7 +34,7 @@ $(function() {
           menu1_clicked = false;
         }
   		)
-    }, 10000);
+    }, 6000);
 	});
 
   $( "#menu-002" ).click(function(event) {
