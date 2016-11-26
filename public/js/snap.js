@@ -60,11 +60,11 @@ function computeStatus() {
         if (emotion.length == 0) {
             emotion = 'neutral'
         }
-        let age = Math.ceil(attr.age)
-        if (age > 30) {
-            age -= 5;
+        latestAge = Math.ceil(attr.age)
+        if (latestAge > 30) {
+            latestAge -= 5;
         }
-        status += `[${i+1}] ${attr.gender}, ${getAgeGroup(age)} --> ${emotion}<br/>`
+        status += `[${i+1}] ${attr.gender}, ${getAgeGroup(latestAge)} --> ${emotion}<br/>`
     }
     if (status.length == 0) {status = 'Loading...'}
     setStatus(status)
