@@ -1,13 +1,13 @@
 var TIME = 5;
 var timerRunning = false;
 
-$(function() {
+$(function () {
 
 	$(window).click(function() {
       restartTimer();
   });
 
-	var timer = new Timer(1000, function(self, seconds) {
+	var timer = new Timer(1000, function (self, seconds) {
 		if (seconds == TIME) {
 			swapBack();
 			self.stop();
@@ -43,7 +43,7 @@ $(function() {
 		// );
 	}
 
-	$( "#click-div" ).click(function(event) {
+	$("#click-div").click(function (event) {
 
 		if (timerRunning == false) {
 			timer.start();
@@ -70,6 +70,5 @@ $(function() {
 		// 		$( "#ads-page" ).css("background", "green");
 		// 	}
 		// );
-
 	});
 });

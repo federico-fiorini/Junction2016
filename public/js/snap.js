@@ -16,8 +16,58 @@ window.onload = function () {
     })
 }
 
+var people = {faces: [], emotions: []}
+
 function setStatus(str) {
     document.getElementById('result_status').innerHTML = str
+}
+
+function getDominantEmotion(dict) {
+    var emotion = ''
+    var value = 0.0
+    for (var key in dict) {
+        if (dict[key] > value) {
+            value = dict[key]
+            emotion = key
+        }
+    }
+    return emotion
+}
+
+function getAgeGroup(age) {
+    const ages = ['1 - 8', '8 - 12', '12 - 15', '15 - 20', '20 - 30', '30 - 40', '40 - 50']
+    var ag ='50 +'
+    ages.forEach(group => {
+        var values = group.split(' - ').map(str => {
+            return parseInt(str)
+        })
+        if (age >= values[0] && age <= values[1]) {
+            return ag =  group
+        }
+    })
+    return ag
+}
+
+function computeStatus() {
+    var status  = ''
+    for (let i = 0; i < people.faces.length; i++) {
+        let attr = people.faces[i].faceAttributes
+        var emotion = ''
+        if (people.emotions.length > i) {
+            emotion = getDominantEmotion(people.emotions[i].scores)
+        }
+
+        if (emotion.length == 0) {
+            emotion = 'neutral'
+        }
+        latestAge = Math.ceil(attr.age)
+        if (latestAge > 30) {
+            latestAge -= 5;
+        }
+        status += `[${i+1}] ${attr.gender}, ${getAgeGroup(latestAge)} --> ${emotion}<br/>`
+    }
+    if (status.length == 0) {status = 'Loading...'}
+    setStatus(status)
 }
 
 function take_snapshot() {
@@ -29,17 +79,14 @@ function take_snapshot() {
 
         analyzeFace(blob, face => {
             console.log('Face: ', face)
-            str = ''
-            for (let i = 0; i < face.length; i++) {
-                let attr = face[i].faceAttributes
-                str += `[${i+1}] Age: ${attr.age}   Gender: ${attr.gender}<br/>`
-            }
-            if (str.length == 0) {str = 'Loading...'}
-            setStatus(str)
+            people.faces = face
+            computeStatus()
         })
 
         analyzeEmotion(blob, emotion => {
             console.log('Emotion: ', emotion)
+            people.emotions = emotion
+            computeStatus()
         })
     });
 }
