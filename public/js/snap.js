@@ -16,8 +16,41 @@ window.onload = function () {
     })
 }
 
+var people = {faces: [], emotions: []}
+
 function setStatus(str) {
     document.getElementById('result_status').innerHTML = str
+}
+
+function getDominantEmotion(dict) {
+    var emotion = ''
+    var value = 0.0
+    for (var key in dict) {
+        if (dict[key] > value) {
+            value = dict[key]
+            emotion = key
+        }
+    }
+    return emotion
+}
+
+function computeStatus() {
+    var status  = ''
+    for (let i = 0; i < people.faces.length; i++) {
+        let attr = people.faces[i].faceAttributes
+        var emotion = ''
+        if (people.emotions.length > i) {
+            emotion = getDominantEmotion(people.emotions[i].scores)
+        }
+
+        if (emotion.length == 0) {
+            emotion = 'neutral'
+        }
+
+        status += `[${i+1}] ${attr.gender}, ${Math.ceil(attr.age)} --> ${emotion}<br/>`
+    }
+    if (status.length == 0) {status = 'Loading...'}
+    setStatus(status)
 }
 
 function take_snapshot() {
@@ -29,17 +62,14 @@ function take_snapshot() {
 
         analyzeFace(blob, face => {
             console.log('Face: ', face)
-            str = ''
-            for (let i = 0; i < face.length; i++) {
-                let attr = face[i].faceAttributes
-                str += `[${i+1}] Age: ${attr.age}   Gender: ${attr.gender}<br/>`
-            }
-            if (str.length == 0) {str = 'Loading...'}
-            setStatus(str)
+            people.faces = face
+            computeStatus()
         })
 
         analyzeEmotion(blob, emotion => {
             console.log('Emotion: ', emotion)
+            people.emotions = emotion
+            computeStatus()
         })
     });
 }
