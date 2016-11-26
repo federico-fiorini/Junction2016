@@ -1,0 +1,130 @@
+<html>
+<head>
+<style type="text/css">
+	body {
+		background-color: #5D666F;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	h1 {
+		color: #fff;
+		font-size: 5em;
+    font-weight: normal;
+	}
+	ul {
+		list-style-type: none;
+		padding: 0px;
+	}
+	table#buses {
+		border-spacing: 10px;
+		width: 100%;
+		font-size: 2em;
+	}
+	tr.bus td {
+		background-color: #FFFFFF;
+		padding: 10px;
+	}
+	tr.bus {
+		width: 100%;
+	}
+	td.busNumber {
+		width: 10%;
+	}
+	td.status {
+		width: 10%;
+	}
+	td.busTime {
+		width: 20%;
+	}
+	td.status.stop {
+		background-color: #E46948;
+		color: #FFF;
+		text-transform: uppercase;
+	}
+	td.status.stop:before{
+		content: 'stop';
+	}
+	td.status.reserved {
+		background-color: #53D04A;
+		content: 'Reserved';
+		color: #FFF;
+		font-size: 0.66em;
+		text-transform: none;
+	}
+	td.status.reserved_text:before {
+		content: 'Reserved';
+	}
+</style>
+</head>
+<body>
+<h1>BUS</h1>
+<table id="buses">
+
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+
+	function getMinutes(date, time, currTime) {
+
+		var date = new Date(date.slice(0,4), parseInt(date.slice(4,6))-1, date.slice(6,8), time.slice(0,2), time.slice(2,4));
+
+		var busTime = date.getTime();
+
+		return Math.floor((busTime - currTime)/60000);
+	}
+
+	function pressStop(target) {
+		target.onclick = '';
+		$(target).toggleClass('stop');
+		$(target).toggleClass('reserved');
+
+		function blinkButton(){
+			if (!$(target)) return;
+			$(target).toggleClass('reserved_text');
+			setTimeout(blinkButton, 600);
+		}
+		blinkButton();
+	}
+
+	function updateMinutes() {
+
+	}
+
+	function updateTimetable() {
+
+	}
+$(function() {
+
+
+
+	var reqUrl = "http://hsltimetable.herokuapp.com/2222210";
+
+
+	$.get(reqUrl)
+	.then(function(body){
+		var stop = body[0];
+		var departures = stop.departures;
+		var lines = {};
+		for (line in stop.lines) {
+			var parts = stop.lines[line].split(':');
+			lines[parts[0]] = parts[1]
+		}
+
+		var currTime = (new Date()).getTime();
+
+		for(var i=0; i<departures.length; i++) {
+			var arrival = departures[i];
+			var item =  '<tr class="bus"><td class="busNumber">' + arrival.code.slice(1, -2)
+								 +'</td><td class="busDest">' + lines[arrival.code]
+								 +'</td><td class="busTime">'
+								 + getMinutes(arrival.date.toString(), arrival.time.toString(), currTime)
+								 +' min</td><td class="status stop" data-id="'+i+'" onClick="pressStop(this)" >'
+								 +'</td></tr>';
+			$("#buses").append(item);
+		}
+
+	});
+
+});
+</script>
+</body>
+</html>
