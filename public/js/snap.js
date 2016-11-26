@@ -58,22 +58,24 @@ function applyEmojis(status) {
     while (node.hasChildNodes()) {
         node.removeChild(node.lastChild);
     }
-    
+
     console.log(`===: ${status.length}`)
     console.log(status[0])
-   
+
     var emojiDiv = document.createElement('div')
+    emojiDiv.className = "emojy-wrapper"
     var i = 0;
     for (i = 0; i < status.length; i++) {
         var img = document.createElement('img')
         var dict = status[i]
-        img.url = `/public/img/${dict.gender}_${dict.emotion}.png`
-        console.log(image.url)
+        img.src = `/public/img/${dict.gender}_${dict.emotion}.png`
+        img.className = `emojy-img`
+        console.log(img.url)
         var textDiv = document.createElement('div')
         textDiv.innerHTML = `${dict.age}`
         var statusDiv = document.createElement('div')
         statusDiv.appendChild(img)
-        //statusDiv.appendChild(textDiv)
+        statusDiv.appendChild(textDiv)
         emojiDiv.appendChild(statusDiv)
     }
     node.appendChild(emojiDiv)
@@ -149,4 +151,28 @@ function post(url, data, key, completion) {
     }
 
     xhr.send(data)
+}
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
 }

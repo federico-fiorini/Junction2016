@@ -1,19 +1,24 @@
 var TIME = 3;
 
 var ads = [
-	{ "file": "w_1.jpg", "ageRange": "20-100", "gender": "female" },
-	{ "file": "w_2.gif", "ageRange": "20-100", "gender": "female" },
-	{ "file": "w_3.jpg", "ageRange": "20-100", "gender": "female" },
-	{ "file": "w_4.png", "ageRange": "0-14", "gender": "female" },
-	{ "file": "w_5.png", "ageRange": "0-14", "gender": "female" },
-	{ "file": "w_6.jpg", "ageRange": "13-20", "gender": "female" },
-	{ "file": "m_1.jpeg", "ageRange": "20-100", "gender": "male" },
-	{ "file": "m_2.png", "ageRange": "20-100", "gender": "male" },
-	{ "file": "m_3.jpg", "ageRange": "0-14", "gender": "male" },
-	{ "file": "m_4.jpg", "ageRange": "0-14", "gender": "male" },
-	{ "file": "m_5.jpg", "ageRange": "0-14", "gender": "male" },
-	{ "file": "m_6.jpg", "ageRange": "0-14", "gender": "male" },
-	{ "file": "m_7.png", "ageRange": "14-20", "gender": "male" },
+	{ "file": "Ads_f_kid_001.jpg", "ageRange": "0-10", "gender": "female" },
+	{ "file": "Ads_f_kid_002.jpg", "ageRange": "0-10", "gender": "female" },
+	{ "file": "Ads_f_kid_003.jpg", "ageRange": "0-10", "gender": "female" },
+	{ "file": "Ads_f_teen_001.jpg", "ageRange": "10-19", "gender": "female" },
+	{ "file": "Ads_f_teen_002.jpg", "ageRange": "10-19", "gender": "female" },
+	{ "file": "Ads_f_teen_003.jpg", "ageRange": "10-19", "gender": "female" },
+	{ "file": "Ads_f_20s_001.jpg", "ageRange": "20-100", "gender": "female" },
+	{ "file": "Ads_f_20s_002.jpg", "ageRange": "20-100", "gender": "female" },
+	{ "file": "Ads_f_20s_003.jpg", "ageRange": "20-100", "gender": "female" },
+	{ "file": "Ads_m_kid_001.jpg", "ageRange": "0-10", "gender": "male" },
+	{ "file": "Ads_m_kid_002.jpg", "ageRange": "0-10", "gender": "male" },
+	{ "file": "Ads_m_kid_003.jpg", "ageRange": "0-10", "gender": "male" },
+	{ "file": "Ads_m_teen_001.jpg", "ageRange": "10-19", "gender": "male" },
+	{ "file": "Ads_m_teen_002.jpg", "ageRange": "10-19", "gender": "male" },
+	{ "file": "Ads_m_teen_003.jpg", "ageRange": "10-19", "gender": "male" },
+	{ "file": "Ads_m_20s_001.jpg", "ageRange": "20-100", "gender": "male" },
+	{ "file": "Ads_m_20s_002.jpg", "ageRange": "20-100", "gender": "male" },
+	{ "file": "Ads_m_20s_003.jpg", "ageRange": "20-100", "gender": "male" },
 ];
 
 var previousPerson = null
@@ -74,7 +79,6 @@ $(function () {
 		}
 		$("#ads-page").css('background-image', `url(/public/img/${imageSet[current].file})`);
 		previousPerson = person
-		console.log(imageSet)
 	}
 
 	timer.start();

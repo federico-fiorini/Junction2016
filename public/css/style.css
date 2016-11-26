@@ -87,3 +87,13 @@ iframe {
 	left: 0;
 	background-image: url("/public/img/menu_004.png");
 }
+
+.emojy-img {
+	width: 10%;
+	height: auto;
+	margin: 10px;
+}
+
+.emojy-wrapper {
+	display: inline-block;
+}

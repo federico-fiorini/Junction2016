@@ -63,13 +63,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
 
-	function getMinutes(date, time, currTime) {
+	var reqUrl = "http://hsltimetable.herokuapp.com/2222210";
 
-		var date = new Date(date.slice(0,4), parseInt(date.slice(4,6))-1, date.slice(6,8), time.slice(0,2), time.slice(2,4));
+	function getTimestamp(date, time) {
+		date = date.toString();
+		time = time.toString();
+		date = new Date(date.slice(0,4), parseInt(date.slice(4,6))-1, date.slice(6,8), time.slice(0,2), time.slice(2,4));
 
 		var busTime = date.getTime();
 
-		return Math.floor((busTime - currTime)/60000);
+		return busTime;
+	}
+
+	function getMinutes(busTime, currTime) {
+		var minLeft = Math.floor((busTime - currTime)/60000);
+		minLeft = minLeft < 0? 0 : minLeft;
+		return minLeft
 	}
 
 	function pressStop(target) {
@@ -86,43 +95,63 @@
 	}
 
 	function updateMinutes() {
+		var buses = $('#buses').children('tr');
+		var currTime = (new Date()).getTime();
 
+		for (var i=0; i<buses.length; i++) {
+			var bus = $(buses[i]);
+			var timeCell = $(bus.children('td.busTime')[0]);
+			var eta = timeCell.data('arrival');
+
+			if ( timeCell.text() === '0 min'){
+				timeCell.text(getMinutes(eta, currTime)+' min');
+			} else if ( currTime > eta + 60000) {
+
+				bus.fadeOut(300, function(){
+
+					$(this).remove();
+				});
+			}
+		}
+
+		setTimeout(updateMinutes, 4000);
 	}
 
 	function updateTimetable() {
 
+		$.get(reqUrl)
+		.then(function(body){
+			var stop = body[0];
+			var departures = stop.departures;
+			var lines = {};
+			for (line in stop.lines) {
+				var parts = stop.lines[line].split(':');
+				lines[parts[0]] = parts[1]
+			}
+
+			var currTime = (new Date()).getTime();
+
+			for(var i=0; i<departures.length; i++) {
+				var arrival = departures[i];
+				var arrivalTime = getTimestamp(arrival.date, arrival.time);
+				var item =  '<tr class="bus"><td class="busNumber">' + arrival.code.slice(1, -2)
+									 + '</td><td class="busDest">' + lines[arrival.code]
+									 + '</td><td class="busTime" data-arrival="'+arrivalTime+'">'
+									 + getMinutes(arrivalTime, currTime)
+									 + ' min</td><td class="status stop" data-id="'+i+'" onClick="pressStop(this)" >'
+									 + '</td></tr>';
+				$("#buses").append(item);
+			}
+
+			setTimeout(updateTimetable, 180000);
+		});
+
+
 	}
 $(function() {
 
-
-
-	var reqUrl = "http://hsltimetable.herokuapp.com/2222210";
-
-
-	$.get(reqUrl)
-	.then(function(body){
-		var stop = body[0];
-		var departures = stop.departures;
-		var lines = {};
-		for (line in stop.lines) {
-			var parts = stop.lines[line].split(':');
-			lines[parts[0]] = parts[1]
-		}
-
-		var currTime = (new Date()).getTime();
-
-		for(var i=0; i<departures.length; i++) {
-			var arrival = departures[i];
-			var item =  '<tr class="bus"><td class="busNumber">' + arrival.code.slice(1, -2)
-								 +'</td><td class="busDest">' + lines[arrival.code]
-								 +'</td><td class="busTime">'
-								 + getMinutes(arrival.date.toString(), arrival.time.toString(), currTime)
-								 +' min</td><td class="status stop" data-id="'+i+'" onClick="pressStop(this)" >'
-								 +'</td></tr>';
-			$("#buses").append(item);
-		}
-
-	});
+	updateTimetable();
+	updateMinutes();
 
 });
 </script>
