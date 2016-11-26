@@ -1,4 +1,4 @@
-function Timer(tic, onTick) {
+function Timer(tick, onTick) {
     var self = this,
         interval,
         startTime,
@@ -10,7 +10,7 @@ function Timer(tic, onTick) {
         interval = window.setInterval(function() {
             count++
             onTick(self, count)
-        }, tic)
+        }, tick)
     }
 
     self.stop = function() {

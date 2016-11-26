@@ -37,6 +37,10 @@ iframe {
 	z-index: 100;
 }
 
+#result_status {
+	color: yellow;
+}
+
 #ads-page {
 	background: green;
 	height: 100%;
