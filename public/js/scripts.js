@@ -1,13 +1,13 @@
 var TIME = 5;
 var timerRunning = false;
 
-$(function() {
+$(function () {
 
-	$( "#full-div" ).click(function(event) {
+	$("#full-div").click(function (event) {
 		restartTimer();
 	});
 
-	var timer = new Timer(1000, function(self, seconds) {
+	var timer = new Timer(1000, function (self, seconds) {
 		if (seconds == TIME) {
 			swapBack();
 			self.stop();
@@ -24,26 +24,26 @@ $(function() {
 
 	function swapBack() {
 
-		$( "#interactive" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100px",
-			    height: "100px",
-			    'z-index': "100"
-			}, 2000, function() {}
-		);
+		$("#interactive")
+			.animate({
+				opacity: 1,
+				width: "100px",
+				height: "100px",
+				'z-index': "100"
+			}, 2000, function () { }
+			);
 
-	  	$( "#ads" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100%",
-			    height: "100%",
-			    'z-index': "0"
-			}, 2000, function() {}
-		);
+		$("#ads")
+			.animate({
+				opacity: 1,
+				width: "100%",
+				height: "100%",
+				'z-index': "0"
+			}, 2000, function () { }
+			);
 	}
 
-	$( "#click-div" ).click(function(event) {
+	$("#click-div").click(function (event) {
 
 		if (timerRunning == false) {
 			timer.start();
@@ -51,23 +51,23 @@ $(function() {
 			console.log("started timer");
 		}
 
-	  	$( "#ads" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100px",
-			    height: "100px",
-			    'z-index': "100"
-			}, 2000, function() {}
-		);
+		$("#interactive")
+			.animate({
+				opacity: 1,
+				width: "100%",
+				height: "100%",
+				'z-index': "0"
+			}, 2000, function () { }
+			);
 
-	  	$( "#interactive" )
-	  		.animate({
-			    opacity: 1,
-			    width: "100%",
-			    height: "100%",
-			    'z-index': "0"
-			}, 2000, function() {}
-		);
+		$("#ads")
+			.animate({
+				opacity: 1,
+				width: "100%",
+				height: "30%",
+				'z-index': "100"
+			}, 2000, function () { }
+			);
 
 	});
 });

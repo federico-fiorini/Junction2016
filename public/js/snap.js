@@ -34,6 +34,20 @@ function getDominantEmotion(dict) {
     return emotion
 }
 
+function getAgeGroup(age) {
+    const ages = ['1 - 8', '8 - 12', '12 - 15', '15 - 20', '20 - 30', '30 - 40', '40 - 50']
+    var ag ='50 +'
+    ages.forEach(group => {
+        var values = group.split(' - ').map(str => {
+            return parseInt(str)
+        })
+        if (age >= values[0] && age <= values[1]) {
+            return ag =  group
+        }
+    })
+    return ag
+}
+
 function computeStatus() {
     var status  = ''
     for (let i = 0; i < people.faces.length; i++) {
@@ -46,8 +60,11 @@ function computeStatus() {
         if (emotion.length == 0) {
             emotion = 'neutral'
         }
-
-        status += `[${i+1}] ${attr.gender}, ${Math.ceil(attr.age)} --> ${emotion}<br/>`
+        let age = Math.ceil(attr.age)
+        if (age > 30) {
+            age -= 5;
+        }
+        status += `[${i+1}] ${attr.gender}, ${getAgeGroup(age)} --> ${emotion}<br/>`
     }
     if (status.length == 0) {status = 'Loading...'}
     setStatus(status)
