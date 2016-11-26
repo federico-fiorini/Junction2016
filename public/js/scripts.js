@@ -1,21 +1,25 @@
 var TIME = 5;
-var timer;
-
+var timerRunning = false;
 
 $(function() {
 
-	document.addEventListener("click", restartTimer, false);
+	$( "#full-div" ).click(function(event) {
+		restartTimer();
+	});
 
 	var timer = new Timer(1000, function(self, seconds) {
 		if (seconds == TIME) {
 			swapBack();
 			self.stop();
+			timerRunning = false;
 		}
 	});
 
 	function restartTimer() {
-		console.log("(re)starting timer");
-		timer.restart();
+		if (timerRunning == true) {
+			console.log("restarting timer");
+			timer.restart();
+		}
 	}
 
 	function swapBack() {
@@ -41,7 +45,11 @@ $(function() {
 
 	$( "#click-div" ).click(function(event) {
 
-		console.log("clicked");
+		if (timerRunning == false) {
+			timer.start();
+			timerRunning = true;
+			console.log("started timer");
+		}
 
 	  	$( "#ads" )
 	  		.animate({

@@ -2,7 +2,7 @@ body {
 	background: black;
 }
 
-iframe {    
+iframe {
  	border:0 none;
 }
 
@@ -10,7 +10,7 @@ iframe {
 	position: absolute;
 	top: 0;
 	right: 0;
-	
+
 }
 
 #click-div {
@@ -42,6 +42,12 @@ iframe {
 }
 
 #ads-page {
+	background-image: url("/public/img/1.jpg");
+	height: 100%;
+	width: 100%;
+}
+
+#interactive-page {
 	background: green;
 	height: 100%;
 	width: 100%;
