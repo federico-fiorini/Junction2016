@@ -16,8 +16,6 @@ var ads = [
 	{ "file": "m_7.png", "ageRange": "14-20", "gender": "male" },
 ];
 
-//fdfds
-
 var previousPerson = null
 function getLastPerson() {
 	if (people.faces.length == 1) {
