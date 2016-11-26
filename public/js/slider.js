@@ -29,8 +29,7 @@ function getLastPerson() {
 
 function computeImageSet(person) {
 	if (!person) {
-		imageSet = ads;
-		return;
+		return shuffle(ads);
 	}
 
 	var imgs = []
