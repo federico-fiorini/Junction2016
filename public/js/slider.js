@@ -74,7 +74,6 @@ $(function () {
 		}
 		$("#ads-page").css('background-image', `url(/public/img/${imageSet[current].file})`);
 		previousPerson = person
-		console.log(imageSet)
 	}
 
 	timer.start();

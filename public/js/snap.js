@@ -68,7 +68,6 @@ function applyEmojis(status) {
         var img = document.createElement('img')
         var dict = status[i]
         img.url = `/public/img/${dict.gender}_${dict.emotion}.png`
-        console.log(image.url)
         var textDiv = document.createElement('div')
         textDiv.innerHTML = `${dict.age}`
         var statusDiv = document.createElement('div')
@@ -82,6 +81,9 @@ function applyEmojis(status) {
 function computeStatus() {
     var status = []
     for (var i = 0; i < people.faces.length; i++) {
+        
+        console.log(people.faces[i])
+
         let attr = people.faces[i].faceAttributes
         var emotion = ''
         if (people.emotions.length > i) {
@@ -112,20 +114,26 @@ function take_snapshot() {
         const base64 = data_uri.substring(data_uri.indexOf(token) + token.length)
         const blob = b64toBlob(base64, 'image/jpeg')
 
-        analyzeFace(blob, face => {
-            console.log('Face: ', face)
-            people.faces = face
-            computeStatus()
-        })
-
-        analyzeEmotion(blob, emotion => {
-            console.log('Emotion: ', emotion)
-            people.emotions = emotion
+        post(blob, res => {
+            people['faces'] = JSON.parse(res[0])
+            people['emotions'] = JSON.parse(res[1])
             computeStatus()
         })
     });
 }
 
+function post(data, completion) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://futurebusstation/file/')
+    xhr.setRequestHeader('Content-Type', 'application/octet-stream')
+
+    xhr.onload = function() {
+        completion(JSON.parse(this.response))
+    }
+    xhr.send(data)
+}
+
+/*
 function analyzeEmotion(data, completion) {
     const key = '63609cc73858437f9cadcd3e503c25b9'
     const url = 'https://api.projectoxford.ai/emotion/v1.0/recognize'
@@ -149,4 +157,29 @@ function post(url, data, key, completion) {
     }
 
     xhr.send(data)
+}
+*/
+
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
 }
