@@ -1,11 +1,13 @@
-var TIME = 5;
+var TIME = 8;
 var timerRunning = false;
 
 $(function () {
 
-	$(window).click(function() {
-      restartTimer();
-  });
+	window.addEventListener('message', event => {
+		if (event.data == "restartTimer") {
+			restartTimer();
+		}
+	})
 
 	var timer = new Timer(1000, function (self, seconds) {
 		if (seconds == TIME) {
