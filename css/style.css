@@ -26,13 +26,19 @@ iframe {
 }
 
 #ads {
+	height: 100%;
+	width: 100%;
+	z-index: 0;
+}
+
+#interactive {
 	height: 100px;
 	width: 100px;
 	z-index: 100;
 }
 
-#interactive {
+#ads-page {
+	background: green;
 	height: 100%;
 	width: 100%;
-	z-index: 0;
 }
