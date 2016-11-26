@@ -70,7 +70,6 @@ function applyEmojis(status) {
         var dict = status[i]
         img.src = `/public/img/${dict.gender}_${dict.emotion}.png`
         img.className = `emojy-img`
-        console.log(img.url)
         var textDiv = document.createElement('div')
         textDiv.innerHTML = `${dict.age}`
         var statusDiv = document.createElement('div')
