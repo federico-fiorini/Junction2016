@@ -84,9 +84,6 @@ function applyEmojis(status) {
 function computeStatus() {
     var status = []
     for (var i = 0; i < people.faces.length; i++) {
-        
-        console.log(people.faces[i])
-
         let attr = people.faces[i].faceAttributes
         var emotion = ''
         if (people.emotions.length > i) {
@@ -120,6 +117,7 @@ function take_snapshot() {
         post(blob, res => {
             people['faces'] = JSON.parse(res[0])
             people['emotions'] = JSON.parse(res[1])
+            console.log(people)
             computeStatus()
         })
     });
@@ -127,7 +125,7 @@ function take_snapshot() {
 
 function post(data, completion) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://futurebusstation/file/')
+    xhr.open('POST', 'https://futurebusstation.herokuapp.com/file/')
     xhr.setRequestHeader('Content-Type', 'application/octet-stream')
 
     xhr.onload = function() {
