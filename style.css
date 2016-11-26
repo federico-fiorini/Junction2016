@@ -1,0 +1,34 @@
+body {
+	background: black;
+}
+
+iframe {    
+ 	border:0 none;
+}
+
+#top-left {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100px;
+	width: 100px;
+	z-index: 1000;
+}
+
+#ads {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 100px;
+	width: 100px;
+	z-index: 100;
+}
+
+#interactive {
+	position: absolute;
+	top: 0;
+	right: 0; 
+	height: 100%;
+	width: 100%;
+	z-index: 0;
+}
